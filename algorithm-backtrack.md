@@ -1,0 +1,154 @@
+##**回溯思想**
+
+1、回溯的本质是一种暴力枚举，有指数级的复杂度
+
+2、可以通过回溯算法解决集合、子集、切割、排列等问题。
+
+回溯法时间复杂度的计算：状态个数*单个状态计算所需时间
+
+**回溯三问**
+
+1. 当前的操作是什么？（当前下标i的具体操作是什么）
+2. 子问题是什么？
+3. 下一个子问题是什么？
+
+**回溯特点**
+
+1. 增量地构造答案的过程，这个过程通常用递归来实现。
+2. 对递归而言，只需要把边界情况和非边界情况下的逻辑写对，即可得到正确的结果。
+
+
+
+## 怎么做回溯
+
+### 1选或不选
+
+###2枚举哪个
+
+![1712544069684](E:\master2\coding_notes\DSA\algorithm-backtrack.assets\1712544069684.png)
+
+**回溯的步骤**
+
+1、确定参数和返回值，直接确定参数比较困难，需要根据代码执行逻辑确定
+
+2、确定终止条件，即回溯层数
+
+3、单层递归的逻辑
+
+**关键在于把边界条件写对，非边界条件的逻辑写对**
+
+```c++
+void backtracking(参数) {
+    if (终止条件) {
+        存放结果;
+        return;
+    }
+
+    for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) {
+        处理节点;
+        backtracking(路径，选择列表); // 递归
+        回溯，撤销处理结果
+    }
+}
+```
+
+------
+
+大部分的回溯要记录路径，需要有一个path参数。
+
+剪枝，避免无用递归的过程
+
+
+
+---
+
+##**回溯类型**
+
+###子集
+
+- 子集：B中的所有元素都在A中，那么B是A的子集。
+- 枚举集合中的所有元素，每个元素都有两种情况：选或者不选。得到的其中任意一个结果就是子集。
+- https://leetcode.cn/problems/subsets/
+- https://leetcode.cn/problems/subsets-ii/description/
+- https://leetcode.cn/problems/non-decreasing-subsequences/description/
+
+以78为例，https://leetcode.cn/problems/subsets/，该问题可以从两种视角进行思考。
+
+**1、从输入的视角**
+
+```
+输入：nums = [1,2,3]
+输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+```
+
+- 每个数字都有选或者不选两种情况，从头到尾分别枚举这些情况，可以形成一个满二叉树，树的叶子节点就是需要的答案。
+- <img src="E:\master2\coding_notes\DSA\algorithm-backtrack.assets\1714893304479.png" alt="1714893304479" style="zoom:67%;" />
+
+- 回溯三问
+  - 当前操作：枚举第i个数字选或者不选
+  - 当前子问题：从下标≥i的数字中构建子集
+  - 下一个子问题：从下标≥i+1的数字中构建子集
+
+
+
+**2、从答案的视角**
+
+- 从答案的视角出发，我的答案每次都需要从集合中抽选一个数字（由于集合是无序的，为了避免答案重合，可以把）
+
+- 分别枚举第一个数字选哪个、第二个数字选哪个/////所以，每个节点都是答案
+
+  <img src="E:\master2\coding_notes\DSA\algorithm-backtrack.assets\1714893813309.png" alt="1714893813309" style="zoom:50%;" />
+
+- 回溯三问
+
+  - 当前的操作：选择一个下标j≥i的数字，加入path
+  - 子问题，从下标≥i的数字中构建子集
+  - 下一个子问题：从下标≥j+1的数字中构建子集
+
+
+
+###组合
+
+什么是组合型回溯：可以认为是长度固定的子集，从父集中挑选出k个元素构成一个组合。
+
+- 组合型可以视为子集型的一个特例，那么显然组合型也可以从：选或者不选、枚举选哪个这两个角度思考。
+- 不同的题目背景，适用不同的思路。
+- https://leetcode.cn/problems/generate-parentheses  选或不选
+- https://leetcode.cn/problems/combination-sum-iii/description/  
+
+
+
+###排列
+
+- 时间复杂度分析：叶子数量 * 路径长度
+- https://leetcode.cn/problems/permutations-ii/description/
+- https://leetcode.cn/problems/n-queens/
+
+n皇后问题
+
+> 不同行、不同列，意味着每行每列恰好有一个皇后，思路很明确
+> 1. 逐行枚举皇后的位置，记录所选的列号
+> 2. 后续行中皇后的位置从余下的列号中继续枚举，直到枚举到最后一行
+>
+> 回溯三问
+> * 当前操作：枚举第i行中皇后的位置
+> * 当前子问题：构建从第i行开始的棋盘分布方式
+> * 下一个子问题：构建从第i+1行开始的棋盘分布位置
+>
+> 细节：如何判断行列是否处在同一对角线？
+> * 45度：r + c = 常数
+> * 135度：r - c  = 常数
+
+
+
+
+
+###分割
+
+- https://leetcode.cn/problems/palindrome-partitioning/description/
+- https://leetcode.cn/problems/restore-ip-addresses/description/
+
+###棋盘
+
+- https://leetcode.cn/problems/n-queens/description/
+
