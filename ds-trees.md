@@ -1,17 +1,40 @@
 ## 应用场景
 
-
-
-## 基本操作
-
-
-
-
-
-## 适合谁
-
 1. 可以把原问题变为和原问题相似的、规模更小的子问题，可以用递归求解。
 2. 问题存在明显的嵌套结构，当前一级问题的求解需要下一级问题的结果，则用递归。
+
+
+
+## 基本概念and板子
+
+度：结点子树棵数为结点的度，树中结点最大的度为树的度
+
+结点**深度**：从根结点开始自顶向下逐层增加至该结点时的深度值。根节点深度为１.
+
+结点**高度**：从**最底层**的叶子节点（高度为１）开始自底向上逐层增加至该结点的高度。
+
+==C++==
+
+```C++
+struct TreeNode{
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(): val(0), left(nullptr) ,right(nullptr){}
+    TreeNode(int x): val(x), left(nullptr) ,right(nullptr){}
+    TreeNode(int x, TreeNode* left ,TreeNode* right): val(0), left(left) ,right(right){}
+};
+```
+
+==python==
+
+```python
+class TreeNode:
+    def __init__(self, val = 0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+```
 
 
 
@@ -149,15 +172,24 @@ public:
 
 ## 二叉搜索树
 
+==概念与特性==
+
+- 二叉搜索树是一种
+
+
+
+
+
 1. 判断二叉搜索树： https://leetcode.cn/problems/validate-binary-search-tree/ 
+
    - 前序：传入二叉搜索树的范围，当前节点需要满足的范围left和right。首先判断当前节点需要满足 left < x < right。左子树的值都小于x，需要更新左边界为x；右子树的值都大于x，需要更新右边界为x。随后递归判断左右子树。
-   
+
    - 中序：中序遍历的顺序为  左子树->根->右子树，结合二叉搜索树的性质，其中序遍历得到的子序列一定是单调增的，可以运用这个方式判断其是否为二叉搜索树。过程可拆分为三个子问题，1判断左子树是否为BST、2判断根节点是否小于前驱节点、3判断右子树是否为BST。
-   
+
      **注意**，在中序遍历过程中，实质性的操作都发生在对根节点的操作上。比如左子树会一口气递归到空节点，随后再返回到根节点，所以判断操作、保留前驱节点操作都在中间位置进行，左右子树递归即可。
-   
+
    - 后序：把节点值的范围自底向上传。感觉比较复杂，需要一点时间消化。
-   
+
 2. BST的范围和：https://leetcode.cn/problems/range-sum-of-bst/ 
 
    - 观察每个节点和low  high之间的关系，据此可以分为三个子问题
@@ -167,13 +199,17 @@ public:
 
 3. 二叉搜索树的==最近节点查询==：https://leetcode.cn/problems/closest-nodes-queries-in-a-binary-search-tree/
 
-4.  二叉搜索树中的众数  https://leetcode.cn/problems/find-mode-in-binary-search-tree/ 
+4. 二叉搜索树中的众数  https://leetcode.cn/problems/find-mode-in-binary-search-tree/ 
 
 5. 二叉搜索树的**最大键值和**（**后序遍历**）：https://leetcode.cn/problems/maximum-sum-bst-in-binary-tree/
 
 
 
 ##平衡二叉树
+
+1、判断平衡二叉树：https://leetcode.cn/problems/balanced-binary-tree/
+
+> 思路：平衡二叉树的特点是左右子树高度相差不超过1，以这个特点作为出发点。
 
 
 
