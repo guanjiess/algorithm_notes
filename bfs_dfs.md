@@ -37,6 +37,82 @@ BFS，breadth first search，广度优先搜索：
 
 
 
+###BFS-队列
+
+以二叉树的层序遍历为例.
+
+
+
+
+
+###BFS-两个数组
+
+以二叉树的层序遍历为例.
+
+c++
+
+```C++
+    vector<vector<int>> levelOrder(TreeNode* root){
+        if(root == nullptr){
+            return {};
+        }
+        vector<vector<int>> ans;
+        vector<TreeNode*> cur;
+        cur.push_back(root);
+
+        // 只有最后一层元素会为空
+        while(!cur.empty()){
+            vector<TreeNode*> nxt;
+            vector<int> vals;
+            for(TreeNode* node : cur){
+                //对当前层元素做具体操作
+                vals.push_back(node->val);
+                if(node->left){
+                    nxt.push_back(node->left);
+                }
+                if(node->right){
+                    nxt.push_back(node->right);
+                }
+            }
+            ans.push_back(vals);
+            // 替换cur为下一层
+            cur = nxt;
+        }
+
+        return ans;
+    } 
+```
+
+
+
+python
+
+```python
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if root is None:
+            return []
+        cur = [root]
+        ans = []
+
+        # cur为当前层级结点
+        # nxt存储下一层结点
+        while cur:
+            nxt = []
+            vals = []
+            for node in cur:
+                vals.append(node.val)
+                if node.left:
+                    nxt.append(node.left)
+                if node.right:
+                    nxt.append(node.right)
+            cur = nxt
+            ans.append(vals)
+        return ans
+```
+
+
+
 ## 树
 
 DFS：递归
