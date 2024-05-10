@@ -254,3 +254,17 @@ public:
 链接：https://leetcode.cn/problems/convert-to-base-2/solutions/2211859/jin-zhi-biao-da-shi-de-ben-zhi-bu-tong-y-1x4a/。
 ```
 
+
+
+## 高精度
+
+
+
+
+
+
+
+## 幂运算
+
+- 快速幂：https://leetcode.cn/problems/powx-n/
+- 双模幂运算：https://leetcode.cn/problems/double-modular-exponentiation/

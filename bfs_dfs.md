@@ -41,6 +41,90 @@ BFS，breadth first search，广度优先搜索：
 
 以二叉树的层序遍历为例.
 
+C++
+
+```C++
+
+//Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        if(root == nullptr){
+            return ans;
+        }
+        queue<TreeNode*> q;
+        q.push(root);
+        bool even = false;
+        while(!q.empty()){
+            vector<int> vals;
+            int size = q.size();
+            for(int i = 0; i < size; i++){
+
+                TreeNode* node = q.front();
+                q.pop();
+                vals.push_back(node->val);
+
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+                
+            }
+            if(even){
+                int i = 0, j = vals.size()-1;
+                for(; i < j; i++, j--) {
+                    swap(vals[i], vals[j]);
+                }
+                // ranges::reverse(vals)
+            }
+            ans.push_back(vals);
+            even = !even;
+        }
+        return ans;
+    }
+};
+```
+
+python
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+         self.val = val
+         self.left = left
+         self.right = right
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        # 总是忘了边界
+        if root is None:
+            return []
+        ans = []
+        q = deque([root])
+        even = False
+        while q:
+            size = len(q)
+            vals = []
+            for _ in range(size):
+                node = q.popleft()
+                vals.append(node.val)
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            vals = vals[::-1] if even else vals
+            ans.append(vals)
+            even = not even
+        return ans
+```
+
 
 
 
@@ -110,6 +194,17 @@ class Solution:
             ans.append(vals)
         return ans
 ```
+
+###模板题
+
+102. 二叉树的层序遍历 https://leetcode.cn/problems/binary-tree-level-order-traversal/solution/bfs-wei-shi-yao-yao-yong-dui-lie-yi-ge-s-xlpz/ 
+
+103. 二叉树的锯齿形层序遍历 https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/solution/bfs-wei-shi-yao-yao-yong-dui-lie-yi-ge-s-xlv3/ 
+104. 找树左下角的值（amazing，从右到左遍历，很灵活） https://leetcode.cn/problems/find-bottom-left-tree-value/solution/bfs-wei-shi-yao-yao-yong-dui-lie-yi-ge-s-f34y/ 
+
+199. 二叉树的右视图 https://leetcode.cn/problems/binary-tree-right-side-view/ 
+
+
 
 
 
