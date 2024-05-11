@@ -41,6 +41,7 @@ BFS，breadth first search，广度优先搜索：
 
 以二叉树的层序遍历为例.
 
+<<<<<<< HEAD
 C++
 
 ```C++
@@ -128,7 +129,6 @@ class Solution:
 
 
 
-
 ###BFS-两个数组
 
 以二叉树的层序遍历为例.
@@ -195,6 +195,7 @@ class Solution:
         return ans
 ```
 
+<<<<<<< HEAD
 ###模板题
 
 102. 二叉树的层序遍历 https://leetcode.cn/problems/binary-tree-level-order-traversal/solution/bfs-wei-shi-yao-yao-yong-dui-lie-yi-ge-s-xlpz/ 
@@ -203,7 +204,6 @@ class Solution:
 104. 找树左下角的值（amazing，从右到左遍历，很灵活） https://leetcode.cn/problems/find-bottom-left-tree-value/solution/bfs-wei-shi-yao-yao-yong-dui-lie-yi-ge-s-f34y/ 
 
 199. 二叉树的右视图 https://leetcode.cn/problems/binary-tree-right-side-view/ 
-
 
 
 
