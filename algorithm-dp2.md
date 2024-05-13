@@ -17,8 +17,6 @@
 
 记忆化memo数组维度由递归参数而定。比如dfs(int r, int c)，显然就要创建一个二维的memo数组保存。
 
-
-
 ==由递归翻译DP==
 
 1. 把dfs改成dp数组
@@ -148,6 +146,32 @@ int climbStairs(vector<int> &nums, int target) {
 - 背包问题是顺序无关的。从背包中取出 1 2 3，和从背包中取出  3  2 1 是一回事。
 - 适用范围：从集合中取一些元素，使它们的**总和与某个「定值」有关**，那么可以考虑转换为背包问题。
 
+
+
+### 回溯
+
+以https://leetcode.cn/problems/target-sum/为例
+
+```python
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        target += sum(nums)
+        if target < 0 or target % 2:
+            return 0
+        target //= 2
+		
+        @cache  # 记忆化搜索
+        def dfs(i, c):
+            if i < 0:
+                return 1 if c == 0 else 0  # c == 0 表示恰好满足capacity
+            if c < nums[i]:
+                return dfs(i - 1, c)  #超过容量 无法选择
+            return dfs(i - 1, c) + dfs(i - 1, c - nums[i])  #选与不选两种情况
+        return dfs(len(nums) - 1, target)
+```
+
+
+
 **背包问题的状态转移方程一般形式如下**
 $$
 f[i][c] = min(~f[i-1][c],~~ f[i][c-w[i]]+v[i]~) \\
@@ -188,7 +212,7 @@ $$
 ```C++
     for(int i = 1; i <= n; i++)
         for(int j = m; j >= w[i]; j--)
-            dp[j] = max(dp[j], dp[j-w[i]] + v[i]);
+            f[j] = max(f[j], f[j-w[i]] + v[i]);
 ```
 
 完全背包的分析逻辑和01背包大同小异，区别只在于在完全背包问题中，一个物品可以被重复选择。这个差异体现在代码里就是内层嵌套的for可以从小到大遍历
@@ -196,32 +220,128 @@ $$
 ```C++
  	for(int i = 1; i <= n; i++)
         for(int j = w[i]; j <= m; j++)
-            dp[j] = max(dp[j], dp[j-w[i]] + v[i]);
+            f[j] = max(f[j], f[j-w[i]] + v[i]);
 ```
 
 
 
-###变式
+###变式及其边界
+
+背包问题有三种常见的变式
+
+- 至多装capacity，求方案数
+- 恰好装capacity，求方案数
+- 至少装capacity，求方案数
+
+
 
 **一、求方案数**
 
-1. 恰好
-2. 至多
-3. 至少
+f含义：容量为j时，装满背包的方式数量。
+$$
+f^{(i)}[j] = f^{(i-1)}[j]+f^{(i)}\Big[j-nums[i]\Big]
+$$
+针对恰好、至少、至多这三种情况，**区别体现在边界**。
 
+1. 恰好为 target
 
+   ```python
+   def dfs(i, c):
+       if i < 0:
+           return 1 if c == 0 else 0  # c == 0 表示恰好满足capacity
+       if c < nums[i]:
+           return dfs(i-1, c)
+     	return dfs(i-1, c) + dfs(i-1, c-nums[i])
+   # dfs(-1, 0) = 1. 对应的f数组边界条件为  f[0][0] = 1
+   f = [0] * (1+target)
+   f[0] = 1
+   for x in nums:
+       for c in range(target, x-1, -1):
+           f[c] = f[c] + f[c-x]
+   return f[target]
+   ```
+
+2. 至多为 target
+
+   ```python
+   def dfs(i, c):
+       if i < 0:
+           return 1  # 能递归到终点 i < 0说明 c >= 0
+       if c < nums[i]:
+           return dfs(i-1, c)
+       return dfs(i-1,c) + dfs(i-1, c-nums[i])
+   
+   # 上述的边界为 dfs(-1, c) = 1，对应的f数组为 f[0][c] = 1
+   # 回溯翻译为动态规划如下
+   f = [1] * (1+target)
+   for x in nums:
+       for c in range(target, x-1, -1):
+           f[c] = f[c] + f[c-x]
+   return f[target]
+   ```
+
+3. 至少为 target
+
+   ```python
+   def dfs(i, c):
+       if i < 0:
+           return 1 if c <= 0 else 0  # c <= 0 表示至少大于capacity
+       return dfs(i-1,c) + dfs(i-1, c-nums[i])
+   # 上述的边界为 dfs(-1, c) = 1，对应的f数组为 f[0][c] = 1
+   # 回溯翻译为动态规划如下
+   f = [0] * (1+target)
+   f[0] = 1
+   for x in nums:
+       for c in range(target, -1, -1):
+           f[c] = f[c] + f[max(c-x, 0)]
+   return f[target]
+   ```
+
+   
 
 **二、max  min**
 
+**f含义**：容量为j时，背包的最大价值。
+$$
+f^{(i)}[j] = max(f^{(i-1)}[j],~~~f^{(i)}\Big[j-nums[i]\Big]+value[i])
+$$
+f含义：容量为j时，背包的最小价值。
+$$
+f^{(i)}[j] = min(f^{(i-1)}[j],~~~f^{(i)}\Big[j-nums[i]\Big]+value[i])
+$$
+
+
+针对恰好、至少、至多这三种情况，**区别体现在边界**。
+
 1. 恰好
+
+   ```python
+   #max
+   f = [0] + [-inf]*target
+   #min
+   f = [0] + [inf]*target
+   ```
+
 2. 至多
+
+   ```python
+   #max\min
+   f = [0] + [0]*target
+   ```
+
 3. 至少
 
-
-
-
-
-
+   ```python
+   #max\min
+   f = [0] + [0]*target
+   for i,x in enumerate(nums):
+       for c in range(target, -1, -1):  #01背包倒序遍历
+           f[c] = max(f[c], f[max(c-x, 0)] + value[i])
+   
+   for i,x in enumerate(nums):
+       for c in range(target+1):  #完全背包正序遍历，一个物品可以选多次
+           f[c] = max(f[c] , f[max(c-x, 0)] + value[i])
+   ```
 
 
 
@@ -233,7 +353,7 @@ https://github.com/EndlessCheng/codeforces-go/blob/master/leetcode/SOLUTIONS.md
 
 
 
-## 三、线性DP
+## 三、线性DP-LCS
 
 1. 最长公共子序列 https://leetcode.cn/problems/longest-common-subsequence
 
@@ -268,7 +388,14 @@ https://github.com/EndlessCheng/codeforces-go/blob/master/leetcode/SOLUTIONS.md
    \right.
    $$
 
-   可以证明，上式可以简化为
+   可以证明
+
+   - s[i] = t[j]时，**不需要考虑dfs(i-1,j)**--->不选s[i]，选t[j]，**和dfs(i,j-1)**--->选s[i]，不选t[j]
+   - s[i] != t[j]时，也不需要考虑 dfs(i-1,j-1)，**dfs(i,j-1)和dfs(i-1,j)已经包含了dfs(i-1,j-1)**
+
+   <img src="E:\master2\coding_notes\DSA\algorithm-dp2.assets\1715498375225.png" alt="1715498375225" style="zoom:67%;" />
+
+   上式可以简化为
    $$
    dfs(i, j)=\left\{  
                 \begin{array}{**lr**}  
@@ -279,10 +406,14 @@ https://github.com/EndlessCheng/codeforces-go/blob/master/leetcode/SOLUTIONS.md
    $$
 
    > 递推：一比一翻译
+   >
+   > https://leetcode.cn/problems/longest-common-subsequence/solutions/1965676/shu-chu-zui-da-by-musing-kare0vc-4arh/
 
 2. 编辑距离  https://leetcode.cn/problems/edit-distance/solutions/2133222/jiao-ni-yi-bu-bu-si-kao-dong-tai-gui-hua-uo5q/ 
 
    > 子问题：当前两个字符串的最小编辑距离
+   >
+   > 分析：
    >
    > - 末尾字符相同，dfs(i,j) = dfs(i-1, j-1)
    > - 末尾不同，则  dfs(i,j) = min (  dfs(i-1, j)  dfs(i, j-1)  dfs(i-1, j-1)  )  + 1
@@ -318,26 +449,25 @@ https://github.com/EndlessCheng/codeforces-go/blob/master/leetcode/SOLUTIONS.md
 
 
 
+### TODO
+
+最长公共子序列、编辑距离两道题目，怎么记录所有路径。（可参考codetop一些评论）
 
 
-##四、树状DP
 
 
 
 
 
-##五、网格图DP
+## 四、线性DP-LIS
 
-1. **不同路径**2：https://leetcode.cn/problems/unique-paths-ii/description/
-2. https://leetcode.cn/problems/minimum-falling-path-sum/description/
-3. **最大移动次数**https://leetcode.cn/problems/maximum-number-of-moves-in-a-grid/description/
-4. https://leetcode.cn/problems/minimum-path-cost-in-a-grid/description/
-5. https://leetcode.cn/problems/minimum-falling-path-sum-ii/
-6. https://leetcode.cn/problems/maximum-non-negative-product-in-a-matrix/description/
+Longest increasing subsequence. 最长递增子序列
 
-都是自底向上的动态规划。
+子序列：从数组中选择一些数，顺序和数组中的顺序一致。本质上是数组的一个子集，因此可以用子集型回溯的思考做思考。
 
 
+
+ 
 
 
 
@@ -347,11 +477,7 @@ https://github.com/EndlessCheng/codeforces-go/blob/master/leetcode/SOLUTIONS.md
 
 如果出现了负数下标，或者到了上下边界、右边界，就多加几行、多加几列。
 
-
-
 2、边界确定
-
-
 
 3、遍历顺序的选择
 

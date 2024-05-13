@@ -68,7 +68,7 @@ public:
         bool even = false;
         while(!q.empty()){
             vector<int> vals;
-            int size = q.size();
+            int q_size = q.size();
             for(int i = 0; i < size; i++){
 
                 TreeNode* node = q.front();
@@ -111,7 +111,7 @@ class Solution:
         q = deque([root])
         even = False
         while q:
-            size = len(q)
+            q_size = len(q)
             vals = []
             for _ in range(size):
                 node = q.popleft()
@@ -233,9 +233,138 @@ DFS：类似于二叉树，实际上是一个四叉树的递归。
 
 3、岛屿周长：https://leetcode.cn/problems/island-perimeter/description/
 
+4、腐烂的橘子：https://leetcode.cn/problems/rotting-oranges/description
+
 注意点
 
 1、避免遍历曾经遍历过的节点，否则会进入死循环。
+
+C++模板，整体和二叉树的层序遍历类似，也可以分别用队列和两个数组分别实现，实现的细节有所差别。
+
+```c++
+// 定义上下左右四个方向，易于遍历实现
+int DIRECTIONS[4][2] = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+int m = grid.size(), n = grid[0].size();
+
+for(int i = 0; i < m; i++){
+    for(int j = 0; j < n; j++){
+        if(grid[i][j]){
+            // put coordinates in que, and do specific operations
+            q.push(make_pair(i, j));
+            //q.emplace_back(i, j)  数组实现
+            other operations
+        }
+    }
+}
+
+while(!q.empty()){
+    int q_size = q.size();
+    for(int i = 0; i < q_size; i++){
+        //取坐标 x, y
+        for(auto d : DIRECTIONS){
+            int new_x = x + d[0], new_y = y + d[1];
+            if(new_x >= 0 && new_x < m && new_y >= 0 && new_y < n && condition){
+                //新坐标入队
+                q.push(make_pair(new_x, new_y));
+                //标记
+                grid[new_x][new_y] = 2;
+                // specific operations
+            }
+        }
+    }
+    // q = nxt
+}
+
+
+
+```
+
+
+
+以腐烂的橘子为模板题举例。
+
+==两个数组==
+
+```C++
+class Solution {
+public:
+    int DIRECTIONS[4][2] = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+    int orangesRotting(vector<vector<int>>& grid) {
+        int minutes = -1, fresh = 0;
+        int m = grid.size(), n = grid[0].size();
+        vector<pair<int,int>> q;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == 1) fresh += 1;
+                if(grid[i][j] == 2) q.emplace_back(i, j);
+            }
+        }
+        while(!q.empty()){
+            int q_size = q.size();
+            vector<pair<int, int>> nxt;
+            minutes ++;
+            for(int i = 0; i < q_size; i++){
+                int x = q[i].first, y = q[i].second;
+                for(auto d : DIRECTIONS){
+                    int new_x = x + d[0];
+                    int new_y = y + d[1];
+                    if(new_x >= 0 && new_x < m && new_y >= 0 && new_y < n && grid[new_x][new_y] == 1){
+                        fresh --;
+                        grid[new_x][new_y] = 2;
+                        nxt.emplace_back(new_x, new_y);
+                    }
+                }
+            }
+            q = nxt;
+        }
+        if(fresh){
+            return -1;
+        }
+        return max(minutes, 0);
+    }
+};
+```
+
+==一个队列==
+
+```C++
+class Solution {
+public:
+    int DIRECTIONS[4][2] = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+    int orangesRotting(vector<vector<int>>& grid) {
+        int minutes = -1, fresh = 0;
+        int m = grid.size(), n = grid[0].size();
+        queue<pair<int, int>> q;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == 1) fresh += 1;
+                if(grid[i][j] == 2) q.push(make_pair(i,j));
+            }
+        }
+        while(!q.empty()){
+            int q_size = q.size();
+            minutes ++;
+            for(int i = 0; i < q_size; i++){
+                int x = q.front().first, y = q.front().second;
+                q.pop();
+                for(auto d : DIRECTIONS){
+                    int new_x = x + d[0];
+                    int new_y = y + d[1];
+                    if(new_x >= 0 && new_x < m && new_y >= 0 && new_y < n && grid[new_x][new_y] == 1){
+                        fresh --;
+                        grid[new_x][new_y] = 2;
+                        q.push(make_pair(new_x, new_y));
+                    }
+                }
+            }
+        }
+        if(fresh){
+            return -1;
+        }
+        return max(minutes, 0);
+    }
+};
+```
 
 
 
@@ -259,7 +388,11 @@ DFS：类似于二叉树，实际上是一个四叉树的递归。
         }
 ```
 
+2、另一种边界情况的判断
 
+```C++
+x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1
+```
 
 
 

@@ -2,10 +2,6 @@
 
 
 
-
-
-
-
 ##并查集
 
 Union Search Set
@@ -48,8 +44,6 @@ https://github.com/itcharge/LeetCode-Py/blob/main/Contents/07.Tree/05.Union-Find
 https://leetcode.cn/problems/couples-holding-hands/solutions/21437/bing-cha-ji-union-find-by-shty/
 
 6、除法求值：https://leetcode.cn/problems/evaluate-division。。还挺难的，合并集合的时候，怎么更新相较于根节点的值那一块没摸清楚，但是大致的思路是有的。
-
-
 
 
 

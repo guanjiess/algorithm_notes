@@ -21,3 +21,82 @@
 
 由于 `std::string` 是一个通用的字符串类型，它可以包含几乎任何字符。在处理字符串时，可以使用 `std::string` 来存储和操作各种类型的字符数据。
 
+
+
+### 简单string类
+
+```C++
+#include <iostream>
+#include <vector>
+
+#include <string.h>
+#include <stdio.h>
+
+using namespace std;
+
+class MyString {
+public:
+    MyString() : _data(nullptr), _len(0) {}
+
+    MyString(const char* str) {
+        if (str) {
+            _len = strlen(str);
+            _data = new char[_len + 1];
+            strcpy(_data, str);
+        } else {
+            _len = 0;
+            _data = nullptr;
+        }
+    }
+
+    MyString(const MyString& other) {
+        _len = other._len;
+        _data = new char[_len + 1];
+        strcpy(_data, other._data);
+    }
+
+    MyString& operator=(const MyString& other) {
+        if (this != &other) {
+            delete[] _data;
+            _len = other._len;
+            _data = new char[_len + 1];
+            strcpy(_data, other._data);  // deep copy
+        }
+
+        return *this;
+    }
+
+    MyString& operator+=(const MyString& other) {
+        int new_len = _len + other._len;
+        char* new_data = new char[new_len + 1];
+        strcpy(new_data, _data);
+        strcat(new_data, other._data);
+
+        delete[] _data;
+
+        _len = new_len;
+        _data = new_data;
+
+        return *this;
+    }
+
+    bool operator==(const MyString& other) {
+        if (_len != other._len) {
+            return false;
+        }
+
+        return strcmp(_data, other._data);
+    }
+
+    ~MyString() {
+        delete[] _data;
+        _len = 0;
+    }
+
+private:
+    char* _data;
+    int _len;
+};
+
+```
+

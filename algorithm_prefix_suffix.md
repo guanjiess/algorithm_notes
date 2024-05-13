@@ -147,6 +147,10 @@ int main()
 
 
 
+
+
+
+
 ##相关笔试题
 
 灵神前缀和题单：https://leetcode.cn/problems/range-sum-query-immutable/solutions/2693498/qian-zhui-he-ji-qi-kuo-zhan-fu-ti-dan-py-vaar/
