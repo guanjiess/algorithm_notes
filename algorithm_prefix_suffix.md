@@ -180,6 +180,14 @@ https://mp.weixin.qq.com/s/oacs8B0oAO2H66WlzltZDw
 
 
 
+## 面试相关
+
+1. RBBRBR，每次操作可以交换一个R或B，至少操作多少次可使R左侧无B，B右侧无R？
+
+   前缀和：分别统计截至第i个点，前面有多少的R、多少B
+
+2. 
+
 
 
 

@@ -35,12 +35,14 @@ C++
 
 ```C++
 isalnum(c)
+isdigit(c)
 ```
 
 Python
 
 ```python
 c.isalnum()
+c.isdigit()
 ```
 
 
