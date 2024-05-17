@@ -355,6 +355,8 @@ https://github.com/EndlessCheng/codeforces-go/blob/master/leetcode/SOLUTIONS.md
 
 ## 三、线性DP-LCS
 
+**线性DP一般是在前缀、后缀上移动。**
+
 1. 最长公共子序列 https://leetcode.cn/problems/longest-common-subsequence
 
    > 原问题：两个字符串的最长子序列长度
@@ -455,17 +457,13 @@ https://github.com/EndlessCheng/codeforces-go/blob/master/leetcode/SOLUTIONS.md
 
 
 
-
-
-
-
 ## 四、线性DP-LIS
 
 Longest increasing subsequence. 最长递增子序列
 
 子序列：从数组中选择一些数，顺序和数组中的顺序一致。本质上是数组的一个子集，因此可以用子集型回溯的思考做思考。
 
-
+1. 最长递增子序列：https://leetcode.cn/problems/longest-increasing-subsequence/solution/jiao-ni-yi-bu-bu-si-kao-dpfu-o1-kong-jia-4zma/ 
 
  
 
