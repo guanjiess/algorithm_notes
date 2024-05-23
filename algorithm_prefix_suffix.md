@@ -15,14 +15,15 @@ int main(){
     for(int i = 1; i <= n; i++){
         cin >> a[i];
     }
-    for(int i = 1; i <= n; i++){
-        s[i] = s[i-1] + a[i];
+    s[0] = 0;
+    for(int i = 0; i < n; i++){
+        s[i+1] = s[i] + a[i];
     }
     while(m--){
         int l;
         int r;
         cin >> l >> r;
-        printf("%d\n", s[r] - s[l-1]);
+        printf("%d\n", s[r+1] - s[l]);
     }
     return 0;
 }
@@ -76,7 +77,6 @@ int main()
 
 ==tips==
 
-- 笔试为了避免边界问题，**下标从1开始**
 - 原理：https://leetcode.cn/circle/discuss/UUuRex/
 - https://leetcode.cn/problems/count-square-submatrices-with-all-ones/
 
@@ -137,9 +137,16 @@ int main()
 
 
 
+## 前缀异或和
+
+1. 构建回文串检测：https://leetcode.cn/problems/can-make-palindrome-from-substring/solutions/2309725/yi-bu-bu-you-hua-cong-qian-zhui-he-dao-q-yh5p/
+2. 最长的超赞字符串：https://leetcode.cn/problems/find-longest-awesome-substring/description/
+
+
+
 ## 前后缀
 
-1、除自身以外数组的乘积：https://leetcode.cn/problems/product-of-array-except-self
+1. 除自身以外数组的乘积：https://leetcode.cn/problems/product-of-array-except-self
 
 
 

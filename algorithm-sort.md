@@ -272,3 +272,31 @@ int main(){
 
 
 
+## 计数排序
+
+用于在取值范围不是很大的情况下，对整数进行排序。
+
+第x小的数为num，x从1开始。
+
+- < num的个数   <x
+- <=num的个数  >= x  （因为第x小的数可能重复，比如某个数组有6个重复的3 ）
+
+
+
+### 题目
+
+1. https://leetcode.cn/problems/top-k-frequent-elements/description/
+2. https://leetcode.cn/problems/sliding-subarray-beauty
+
+
+
+### 参考
+
+https://www.bilibili.com/video/BV1sU4y1R7pm/
+
+
+
+
+
+
+

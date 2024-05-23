@@ -6,7 +6,9 @@
 
 **滑动窗口的精妙之处在于根据当前子序列和大小的情况，不断调节子序列的起始和结束位置。从而将O(n^2)的暴力解法降为O(n)。** 
 
+==应用场景==
 
+- 单调性：数据的单调递增递减，或者条件上的满足、不满足。
 
 
 
@@ -53,23 +55,56 @@
 
 实现细节
 
-1. 假定定长窗口长度为n，每次循环操作前，左右指针之间维护一个长为n-1的窗口
+1. 假定定长窗口长度为n，每次循环操作前，左右指针之间维护一个长为k-1的窗口
 3. 进循环，从窗口右端进入一个数据
 4. 对窗口内的数据做操作。
 5. 左端窗口收缩、删除相应数据。
 
 ```python
 l = 0
-for r in  range(n):
-    ### 具体执行逻辑
+for r in range(k-1, n):
+    ### 1.具体执行逻辑，判断窗内元素性质
     
-    ###收缩左端点，删除相应数据等
+    ### 2.收缩左端点，删除相应数据等
     l += 1
+```
+
+**python简洁写法：同时送入两个数组，一个进、一个出，省区了判断边界**
+
+```python
+# https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together-ii/
+class Solution:
+    def minSwaps(self, nums: List[int]) -> int:
+        
+        cnt1, max_cnt = sum(nums[:k]), 0
+        for _in, _out in zip(nums[k:], nums):
+            cnt1 += _in - _out
+            max_cnt = max(cnt1, max_cnt)
+        return ones - max_cnt
 ```
 
 
 
-2. 字母异位词：https://leetcode.cn/problems/find-all-anagrams-in-a-string/
+
+
+###练习
+
+1. 爱生气的书店老板：https://leetcode.cn/problems/grumpy-bookstore-owner/
+2.  [2841. 几乎唯一子数组的最大和](https://leetcode.cn/problems/maximum-sum-of-almost-unique-subarray/) 
+3.  [2461. 长度为 K 子数组中的最大和](https://leetcode.cn/problems/maximum-sum-of-distinct-subarrays-with-length-k/) 
+4.  [1423. 可获得的最大点数](https://leetcode.cn/problems/maximum-points-you-can-obtain-from-cards/) 
+5.  [2134. 最少交换次数来组合所有的 1 II](https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together-ii/) 
+6. [2653. 滑动子数组的美丽值](https://leetcode.cn/problems/sliding-subarray-beauty/)   ==不熟==
+7. [567. 字符串的排列](https://leetcode.cn/problems/permutation-in-string/)
+8. [483 字母异位词](https://leetcode.cn/problems/find-all-anagrams-in-a-string/)
+9.  [2156. 查找给定哈希值的子串](https://leetcode.cn/problems/find-substring-with-given-hash-value/)   涉及到模运算，暂时跳过。
+
+
+
+###易错&tips
+
+1. 环形数组可以扩容两倍，形成一个链条。如[2134. 最少交换次数来组合所有的 1 II](https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together-ii/) 
+2. 枚举左右端点时，注意数据范围，不要越界、不要漏数。如[1423. 可获得的最大点数](https://leetcode.cn/problems/maximum-points-you-can-obtain-from-cards/) 
 
 
 
@@ -77,20 +112,129 @@ for r in  range(n):
 
 原则：枚举右端点、收缩左端点。想象一下毛毛虫。
 
+```python
+l = 0
+for r in range(n):
+    ### 1.对右端点执行相应操作，判断窗内元素性质
+    
+    ### 2.收缩左端点（满足条件->不满足 or 不满足条件->满足），删除相应数据等
+    
+    ### 3.计入答案
+    
+```
+
+
+
 ### 最长、最大
 
 1. 无重复字符的最长子串：https://leetcode.cn/problems/longest-substring-without-repeating-characters/solution/xia-biao-zong-suan-cuo-qing-kan-zhe-by-e-iaks/ 
+
+   ```python
+   class Solution:
+       def lengthOfLongestSubstring(self, s: str) -> int:
+           n = len(s)
+           l, r = 0, 0
+           ans = 0
+           cnt = Counter() # char : int
+           # 用哈希表记录窗口中元素出现次数，右进左出
+           # 从右端进元素，如果出现重复，必然是右端进入的元素
+           for r in range(n):
+               cnt[s[r]] += 1
+               while cnt[s[r]] > 1:
+                   cnt[s[l]] -= 1
+                   l += 1
+               ans = max(ans, r-l+1)
+           return ans
+   ```
+
+   - 时间复杂度：O(n)
+   - 空间复杂度：O(128)  ascii字符集有128个字符
+
+2. [2730. 找到最长的半重复子字符串](https://leetcode.cn/problems/find-the-longest-semi-repetitive-substring/) 
+
+3. [1695. 删除子数组的最大得分](https://leetcode.cn/problems/maximum-erasure-value/) 
+
+4. [2958. 最多 K 个重复元素的最长子数组](https://leetcode.cn/problems/length-of-longest-subarray-with-at-most-k-frequency/)   注： 2-4三道题几乎一样。
+
+5. [2024. 考试的最大困扰度](https://leetcode.cn/problems/maximize-the-confusion-of-an-exam/)   稍微饶了点弯
+
+6. [1004. 最大连续1的个数 III](https://leetcode.cn/problems/max-consecutive-ones-iii/) 
+
+7. https://leetcode.cn/problems/find-the-longest-equal-subarray/  ==非常优雅==
+
+8. [1438. 绝对差不超过限制的最长连续子数组](https://leetcode.cn/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/)   ==滑窗+有序数据结构==
+
+   - C++: `set`    `map`  `priority_queue等`
+   - python:  `sortedcontainers`
+   - 或者维护两个单调队列，一个头部放最大、一个放最小
+
+9. [2401. 最长优雅子数组](https://leetcode.cn/problems/longest-nice-subarray/)   ==滑窗 + 位运算==
+
+10.  [将 x 减到 0 的最小操作数](https://leetcode.cn/problems/minimum-operations-to-reduce-x-to-zero/)   ==正难则反==
+
+11.  [1838. 最高频元素的频数](https://leetcode.cn/problems/frequency-of-the-most-frequent-element/) ==优雅==
+
+
+
+
+
+
 
 ### 最短、最小
 
 1. 长度最小的子数组 https://leetcode.cn/problems/minimum-size-subarray-sum/solution/biao-ti-xia-biao-zong-suan-cuo-qing-kan-k81nh/ 
 
+   ```python
+   class Solution:
+       def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+           ans = inf  #便于取min 
+           s, l = 0, 0
+           for r in range(len(nums)):
+               s += nums[r]
+               #判断是否可收缩
+               while s - nums[l] >= target:
+                   s -= nums[l]
+                   l += 1
+               #必要判断，无法根据 s-nums[l] < target得出s >= target
+               if s >= target: 
+                   ans = min(ans, r-l+1)
+           return ans if ans != inf else 0
+   ```
+
+   - 时间复杂度：O(n)，左右指针至多加到 n。
+   - 空间复杂度：O(1)，只用了几个额外的变量。
+   - 满足单调性，才可以适用双指针。不断收缩左端点，从满足条件直到不满足为止。
+
+
+
 ### 子数组个数
 
 1. 乘积小于 K 的子数组 https://leetcode.cn/problems/subarray-product-less-than-k/solution/xia-biao-zong-suan-cuo-qing-kan-zhe-by-e-jebq/ 
+
+   ```python
+   class Solution:
+       def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
+           if k <= 1:
+               return 0
+           ans = 0
+           prod, l = 1, 0
+           for r in range(len(nums)):
+               # 枚举右端点
+               prod *= nums[r]
+   
+               # 如果不满足条件，收缩左端点到满足为止
+               while prod >= k:
+                   prod /= nums[l]
+                   l += 1
+               print(l, r)
+               # 满足条件，计入答案
+               ans += r - l + 1
+           return ans
+   ```
+
+   
+
 2. 自定义：在[1, n]的范围内，有多少个子区间的和为n？--->连续子数组和为target
-
-
 
 
 

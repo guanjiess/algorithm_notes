@@ -73,7 +73,27 @@ vector<int> solve(int n, vector<vector<int>> queries) {
 }
 ```
 
+模板题
 
+1. 拼车 https://leetcode.cn/problems/car-pooling/description
+2. 航班预定统计 https://leetcode.cn/problems/corporate-flight-bookings/description
+3. 字母移位 https://leetcode.cn/problems/shifting-letters-ii/description
+4. 区间划分为最小组数 https://leetcode.cn/problems/divide-intervals-into-minimum-number-of-groups
+5. 分割数组为连续子序列 https://leetcode.cn/problems/split-array-into-consecutive-subsequences/description/
+
+以我当前的水平，摸透这四道题就够了。
+
+
+
+## 应用场景
+
+- 上下车模型
+
+- 区间的分配
+
+  
+
+  相关问题出现比较多。
 
 ## 参考
 
