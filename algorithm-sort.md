@@ -258,16 +258,6 @@ int main(){
 
 1、https://leetcode.cn/problems/merge-intervals/
 
-
-
-## 按优先级排序
-
-经常碰见这种。
-
-
-
-
-
 ## 冒泡
 
 
@@ -283,7 +273,25 @@ int main(){
 
 
 
-### 题目
+## 库
+
+###C++
+
+- `ranges::sort()`
+- 
+
+### python
+
+- `sorted()`
+- `sort()`
+
+
+
+经常碰见这种。
+
+
+
+## 题目
 
 1. https://leetcode.cn/problems/top-k-frequent-elements/description/
 2. https://leetcode.cn/problems/sliding-subarray-beauty

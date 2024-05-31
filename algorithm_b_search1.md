@@ -25,36 +25,41 @@ left < right  or left <= right
 
 ```C++
 int lower_bound(vector<int>& nums, int target){
-        int l = 0, r = nums.size()-1;
-        while(l <= r){
-            int mid = (l + r) >> 1;
+        int l = 0, r = nums.size()-1;  // [0, n-1]
+        while(l <= r){ 		// 区间不为空
+            int mid = l + (r-l)/2;
             if(nums[mid] < target){
                 l = mid + 1;// 目标在区间[mid+1, right]
             } else{
                 r = mid - 1;// 目标在区间[left, mid-1]
             }
         }
-        return l;
+        return l; // l = r+1
 }
 ```
 
-最终L指针停在了R的右边
+1. 初始区间：`l = 0, r = size - 1`
+2. 循环条件：区间不为空  `l <= r`
+3. 终止情况：`l = r + 1`
+   - 最终L指针停在了R的右边。
+
+
 
 2、左闭右开
 
 ```C++
 // 左闭右开写法
     int lower_bound2(vector<int>& nums, int target){
-        int l = 0, r = nums.size()-1;
-        while(l < r){
-            int mid = (l + r) >> 1;
+        int l = 0, r = nums.size(); //[0,n)
+        while(l < r){				// 区间不为空
+            int mid = l + (r-l)/2;  //避免溢出
             if(nums[mid] < target){
-                l = mid + 1; // [mid+1, r)
+                l = mid + 1; 		// [mid+1, r) 
             } else{
-                r = mid;  // [l, mid)
+                r = mid;  			// [l, mid)
             }
         }
-        return l;
+        return l;  // l = r
     }
 ```
 
@@ -66,14 +71,14 @@ int lower_bound(vector<int>& nums, int target){
 int lower_bound3(vector<int>& nums, int target){
         int l = -1, r = nums.size();
         while(l+1 < r){
-            int mid = (l + r) >> 1;
+            int mid = l + (r-l)/2;
             if(nums[mid] < target){
                 l = mid;
             } else{
                 r = mid;
             }
         }
-        return l;
+        return r; // l+1 = r
 }
 ```
 
@@ -86,13 +91,13 @@ int lower_bound3(vector<int>& nums, int target){
 ```C++
 // 左闭右开 
 int lower_bound(vector<int>& nums, int x){
-    int l = 0, r = nums.size() - 1;
-    while(l < r){
-        int mid = (l+r) >> 1;
+    int l = -1, r = nums.size();
+    while(l+1 < r){
+        int mid = l + (r-l)/2;
         if(nums[mid] >= x){
-            r = mid;  //[left, mid)
+            r = mid;  //(left, mid)
         } else{
-            l = mid + 1; // [mid+1, right)
+            l = mid; // (mid, right)
         }
     }
     // 跳出循环后，表示第一个大于x的数字
@@ -107,15 +112,17 @@ int lower_bound(vector<int>& nums, int x){
 
 ```C++
 int lower_bound(vector<int> &nums, int x){
-	int l = 0, r = nums.size() -1;
-    while(l < r){
-        int mid = (l+r) >> 1;
+	int l = -1, r = nums.size();
+    while(l+1 < r){
+        int mid = l + (r-l)/2;
         if(nums[mid] > x){
-            r = mid;   // [left, mid)
-        } else{W
-            l = mid + 1; // [mid+1, right)
+            r = mid;   // (left, mid)
+        } else{
+            l = mid; // (mid+1, right)
         }
     }
+    if(nums[l]  > x) return l;
+    else return -1;
 }
 ```
 
@@ -160,29 +167,90 @@ int index = lower_bound(nums, x+1) - 1;
 >
 > 其他的情况也类似，比较直观的推导方法就是在要找的位置的分界处（比如在第一个大于等于x的位置后面）画一条线，然后假定L和R最终会停在这条线的左边还是右边，接着倒推各种条件即可。 
 
-## 二分答案/最小最大
+- [704. 二分查找](https://leetcode.cn/problems/binary-search/)
 
-1. 二分就是猜答案。
-2. H指数，不是很懂：https://leetcode.cn/problems/h-index-ii/description/
-3. 最小化最大值：https://leetcode.cn/problems/minimize-maximum-of-array/
-4. 搜索旋转排序数组：https://leetcode.cn/problems/find-minimum-in-rotated-sorted-arra
+```python
+def lower_bound3(nums: List[int], target: int) -> int:
+    left, right = -1, len(nums)  # 开区间 (left, right)
+    while left + 1 < right:  # 区间不为空
+        mid = (left + right) // 2
+        # 循环不变量：
+        # nums[left] < target
+        # nums[right] >= target
+        if nums[mid] < target:
+            left = mid  # 范围缩小到 (mid, right)
+        else:
+            right = mid  # 范围缩小到 (left, mid)
+    return right  # 或者 left+1
+
+```
+
+- [744. 寻找比目标字母大的最小字母](https://leetcode.cn/problems/find-smallest-letter-greater-than-target/)
+
+```python
+class Solution:
+    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
+        l, r = -1, len(letters)
+        while l+1 < r:
+            # 循环不变量 
+            # letters[left] <= target
+            # letters[right] > target
+            mid = l + (r-l)//2
+            if letters[mid] <= target:
+                l = mid
+            else:
+                r = mid
+            print(r)
+        if r < len(letters) and letters[r] > target:
+            return letters[r]
+        return letters[0]
+```
+
+- [2856. 删除数对后的最小数组长度](https://leetcode.cn/problems/minimum-array-length-after-pair-removals/)
+
+- [2563. 统计公平数对的数目](https://leetcode.cn/problems/count-the-number-of-fair-pairs/)   **一种类似于消消看的trick**
+
+- [1818. 绝对差值和](https://leetcode.cn/problems/minimum-absolute-sum-difference/) 
+
+  > 用二分查找的方式找到nums1中和nums2中差别最小的元素去替换。
+
+
 
 
 
 ##C++库
 
-- upper_bound：查找第一个大于给定值的元素位置
-- lower_bound：查找第一个大于等于给定值的元素位置
+- upper_bound：查找**第一个大于**给定值的元素位置。  $\ge$的下界
+- lower_bound：查找**第一个大于等于**给定值的元素位置  $>$的下届
 
 
 
 ## python库
 
+**bisect库**：用来处理已排序序列。
 
+- `bisect.bisect_left(a, x, lo=0, hi=len(a))`: 在已排序的列表 `a` 中查找元素 `x` 应该**插入的位置**，返回插入位置的索引。如果元素已经存在，则返回其左侧位置索引。
 
+- `bisect_left(array, x, left, right)`，对区间`[left, right)`做二分搜索
 
+  ````python
+  import bisect
+  
+  a = [1, 2, 4, 5, 6]
+  x = 3
+  
+  insert_pos = bisect.bisect_left(a, x)
+  print(insert_pos)
+  ````
 
+  - 等价于C++中的  `lower_bound()`，返回  $\ge x$的元素位置的下界。
+  - The returned insertion point *ip* partitions the array *a* into two slices such that `all(elem < x for elem in a[lo : ip])` is true for the left slice and `all(elem >= x for elem in a[ip : hi])` is true for the right slice. 
 
+- `bisect.bisect_right(a, x, lo=0, hi=len(a))`: 在已排序的列表 `a` 中查找元素 `x` 应该**插入的位置**，返回插入位置的索引。如果元素**已经存在，则返回其右侧位置索引**。
+
+  - 等价于C++中的  `upper_bound()`，返回  $>x$的元素位置的下界。即第一个大于 x 元素的下标位置。
+  - `bisect_right(array, x, left, right)`，对区间`[left, right)`做二分搜索
+  - The returned insertion point *ip* partitions the array *a* into two slices such that `all(elem <= x for elem in a[lo : ip])` is true for the left slice and `all(elem > x for elem in a[ip : hi])` is true for the right slice. 
 
 
 
@@ -190,7 +258,7 @@ int index = lower_bound(nums, x+1) - 1;
 
 ## 红蓝染色法
 
-红蓝值得实际上是循环不变量，例如
+红蓝实际上是循环不变量，例如
 
 > 红色表示最小值左侧，蓝色表示最小值及其右侧。----最小值左侧、最小值及其右侧就是一种不随循环变化的稳定性质。
 

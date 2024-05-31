@@ -1,10 +1,36 @@
-## 应用场景
+## 题目
+
+1. 统计连续子串长度
+
+```python
+groups = defaultdict(int)
+cnt = 0
+for i,c in enumerate(s):
+    cnt += 1
+    if i + 1 == len(s) or c != s[i+1]:
+        group[c] = cnt
+        cnt = 0
+```
 
 
 
 
 
 
+
+## python库
+
+1. count()
+2. min()
+3. ord()
+
+
+
+
+
+## C++库
+
+1. 
 
 
 

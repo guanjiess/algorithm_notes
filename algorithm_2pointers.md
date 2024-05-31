@@ -172,11 +172,11 @@ for r in range(n):
 
 10.  [将 x 减到 0 的最小操作数](https://leetcode.cn/problems/minimum-operations-to-reduce-x-to-zero/)   ==正难则反==
 
-11.  [1838. 最高频元素的频数](https://leetcode.cn/problems/frequency-of-the-most-frequent-element/) ==优雅==
+11. [1838. 最高频元素的频数](https://leetcode.cn/problems/frequency-of-the-most-frequent-element/) ==优雅==
 
+12. [2516. 每种字符至少取 K 个](https://leetcode.cn/problems/take-k-of-each-character-from-left-and-right/)  正难则反
 
-
-
+13.  [2106. 摘水果](https://leetcode.cn/problems/maximum-fruits-harvested-after-at-most-k-steps/)   ==二分+滑窗==  暂时碰不了这个难度
 
 
 
@@ -204,6 +204,16 @@ for r in range(n):
    - 时间复杂度：O(n)，左右指针至多加到 n。
    - 空间复杂度：O(1)，只用了几个额外的变量。
    - 满足单调性，才可以适用双指针。不断收缩左端点，从满足条件直到不满足为止。
+
+- [1234. 替换子串得到平衡字符串](https://leetcode.cn/problems/replace-the-substring-for-balanced-string/) 1878
+
+- [1574. 删除最短的子数组使剩余数组有序](https://leetcode.cn/problems/shortest-subarray-to-be-removed-to-make-array-sorted/) 1932
+
+  > 核心目的把左右两端的递增子数组拼起来。
+
+- [76. 最小覆盖子串](https://leetcode.cn/problems/minimum-window-substring/)
+
+最短相比最长类型的题单，更灵活一些。
 
 
 
@@ -244,7 +254,9 @@ for r in range(n):
 
 
 
-快慢窗口
+## 多指针
+
+
 
 
 
