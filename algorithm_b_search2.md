@@ -1,4 +1,4 @@
-## 二分答案
+## 二分答案-最小
 
 1. 二分就是猜答案。
 
@@ -16,13 +16,76 @@
    > * check(r) <= threshold
    > * check(l) > threshold
 
-6.  [1870. 准时到达的列车最小时速](https://leetcode.cn/problems/minimum-speed-to-arrive-on-time/) 
+6. [1870. 准时到达的列车最小时速](https://leetcode.cn/problems/minimum-speed-to-arrive-on-time/) 
+
+7. [1011. 在 D 天内送达包裹的能力](https://leetcode.cn/problems/capacity-to-ship-packages-within-d-days/) 
+
+   ```C++
+   class Solution {
+   public:
+       int shipWithinDays(vector<int>& weights, int days) {
+           auto check = [&](int x)->bool{ //载荷 load = x
+               int cnt = 0, total_days = 0;
+               // 统计所有包裹需要的总运输时间
+               for(int i = 0; i < weights.size(); i++){
+                   if (weights[i] > x) return false;  // 特判，不可能成立的情况
+                   if(cnt + weights[i] <= x){             // 当天可继续运输
+                       cnt += weights[i];
+                   } else{
+                       total_days += 1;
+                       cnt = weights[i];                  // 第二天再运
+                   }
+               }
+               total_days += cnt > 0;                 // 最后一天有剩余的，单独运输
+               return total_days <= days;
+           };
+           int l = 0, r = accumulate(weights.begin(), weights.end(), 0) + 1;
+           while (l+1 < r){
+               int mid = l + (r-l)/2;
+               if(check(mid)){     // 循环不变量：check(r) = true; check(l) = false
+                   r = mid;
+               } else{
+                   l = mid;
+               }
+           }
+           return r;
+       }
+   };
+   ```
+
+8. [475. 供暖器](https://leetcode.cn/problems/heaters/)  ==值得思考==，但是怎么用二分答案写出来？
+
+9. [2594. 修车的最少时间](https://leetcode.cn/problems/minimum-time-to-repair-cars/)   比较套路，难在怎么往二分的方向去想。
+
+10. [1482. 制作 m 束花所需的最少天数](https://leetcode.cn/problems/minimum-number-of-days-to-make-m-bouquets/) 
 
 
 
 
 
-## 循环不变量
+## 二分答案-最大
 
 
 
+
+
+
+
+
+
+## 其他关键点
+
+### 1. 区间
+
+1. 区间选择要包括所有可能情况，范围上做到不漏。
+   - 左边界选一定不成立的、选下界以下
+   - 右边界选一定成立的、选上界以上
+2. 如果对数组的下标做二分搜索，需要注意不要让下标越界。如
+   - [1385. 两个数组间的距离值](https://leetcode.cn/problems/find-the-distance-value-between-two-arrays/)
+
+###2.循环不变量（最大、最小）
+
+我的理解是，如果在某个区间内，一些条件恒成立，那么这个条件就是循环不变量。
+
+1. 求最小：`check(mid) == true`时更新  `right = mid`，反之更新 `left = mid`。最终返回 right
+2. 求最大：`check(mid) == true`时更新  `left = mid`，反之更新 `right = mid`。最终返回  left
