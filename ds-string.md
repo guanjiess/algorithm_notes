@@ -21,8 +21,67 @@ for i,c in enumerate(s):
 ## python库
 
 1. count()
+
 2. min()
+
 3. ord()
+
+4. `.join`
+
+   1. 基本语法：`seperator.join(iterable)`
+
+      - `separator`: 用于连接元素的字符串。可以是任何字符串，如一个空字符串、字符、词、符号等。
+      - `iterable`: 一个可迭代对象（例如：列表、元组、集合，甚至是字符串）。
+
+   2. 用途：将列表、元组、集合、字符串的元素，用  "seperator"分开。
+
+      ```python
+      tuple_words = ("Join", "us", "now")
+      joined = "-".join(tuple_words)
+      print(joined)  # Output: "Join-us-now"
+      ```
+
+      ```shell
+      Join-us-now
+      ```
+
+5. 
+
+
+
+### 注意
+
+1. python中的str字符串是不可变对象，不能对其进行直接修改。
+
+```python
+s1 = "I am king."
+s1[0] = 'H'
+```
+
+```
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+Cell In[6], line 2
+      1 s1 = "I am king."
+----> 2 s1[0] = 'H'
+
+TypeError: 'str' object does not support item assignment
+```
+
+2. 若要修改，先类型转化为 `list`
+
+   ```python
+   # 删除字符
+   s2 = list(s)
+   for i in range(k+1):
+       s2[removable[i]] = '#'
+   ```
+
+3. 
+
+
+
+
 
 
 

@@ -61,19 +61,25 @@
 
 
 
-
-
 ## 二分答案-最大
 
-
-
-
+1. [275. H 指数 II](https://leetcode.cn/problems/h-index-ii/)
+2. [2226. 每个小孩最多能分到多少糖果](https://leetcode.cn/problems/maximum-candies-allocated-to-k-children/)  
+3. [1898. 可移除字符的最大数目](https://leetcode.cn/problems/maximum-number-of-removable-characters/)  ==学了不少字符处理的trick==
+4. [1802. 有界数组中指定下标处的最大值](https://leetcode.cn/problems/maximum-value-at-a-given-index-in-a-bounded-array/)   dfs怎么搜索？
 
 
 
 
 
 ## 其他关键点
+
+###0. 单调
+
+使用二分答案的前提条件是单调性。单调性指的是
+
+1. 数据上的单调，在区间内满足递增或者递减。
+2. 性质上的单调，在区间内恒满足于某个条件。
 
 ### 1. 区间
 
