@@ -77,11 +77,17 @@ vector<int> solve(int n, vector<vector<int>> queries) {
 
 1. 拼车 https://leetcode.cn/problems/car-pooling/description
 2. 航班预定统计 https://leetcode.cn/problems/corporate-flight-bookings/description
-3. 字母移位 https://leetcode.cn/problems/shifting-letters-ii/description
-4. 区间划分为最小组数 https://leetcode.cn/problems/divide-intervals-into-minimum-number-of-groups
-5. 分割数组为连续子序列 https://leetcode.cn/problems/split-array-into-consecutive-subsequences/description/
+3. [56. 合并区间](https://leetcode.cn/problems/merge-intervals/)
+4. [57. 插入区间](https://leetcode.cn/problems/insert-interval/)  ==差分反倒显得繁琐，但是涉及的lambda排序值得去看==
+5. 字母移位 https://leetcode.cn/problems/shifting-letters-ii/description
+6. 区间划分为最小组数 https://leetcode.cn/problems/divide-intervals-into-minimum-number-of-groups
+7. 分割数组为连续子序列 https://leetcode.cn/problems/split-array-into-consecutive-subsequences/description/
+8. [732. 我的日程安排表 III](https://leetcode.cn/problems/my-calendar-iii/)
+9. [732. 我的日程安排表 II](https://leetcode.cn/problems/my-calendar-ii/) ==在我看来是差分的范例==
+10.  [2406. 将区间分为最少组数](https://leetcode.cn/problems/divide-intervals-into-minimum-number-of-groups/) 
+11. [2381. 字母移位 II](https://leetcode.cn/problems/shifting-letters-ii/)   两道经典。
 
-以我当前的水平，摸透这四道题就够了。
+
 
 
 
@@ -90,6 +96,8 @@ vector<int> solve(int n, vector<vector<int>> queries) {
 - 上下车模型
 
 - 区间的分配
+
+- 日程安排、会议安排等
 
   
 

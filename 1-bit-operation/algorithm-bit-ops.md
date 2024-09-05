@@ -4,6 +4,15 @@
 2. 或   `|`  ： 相当于加
 3. 非   `~`
 4. 异或 `^`  ： 相当于减
+5. 左右移位： `>>`右移一位； `<<` 左移一位。
+
+
+
+###基本练习
+
+1. 
+
+
 
 
 
@@ -17,7 +26,7 @@
 
 ##异或（XOR）
 
-1.  [2401. 最长优雅子数组](https://leetcode.cn/problems/longest-nice-subarray/)  
+1.  [2401. 最长优雅子数组](https://leetcode.cn/problems/longest-nice-subarray/)    ==位运算 + 滑窗==
 
    ```python
    class Solution:
@@ -50,9 +59,15 @@
 
 
 
+## lowbit
+
+见：https://leetcode.cn/problems/range-product-queries-of-powers/
+
+目的就是把一个数字的二进制表示诸位拆出来。
 
 
-## 面试
+
+## 面试题
 
 1. 对于整数n，是否存在一个数k，使得2^k = n？
 
@@ -70,19 +85,6 @@
    ```
 
    
-
-2. 
-
-
-
-
-
-
-
-
-
-
-
 
 
 

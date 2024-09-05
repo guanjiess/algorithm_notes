@@ -8,6 +8,13 @@
 
 4、管理内存
 
+
+
+## 注意点
+
+1. 在什么情况下，要用到哨兵节点（dummy node）？、
+2. 在什么情况下，循环条件要写 while (node != null)？什么情况下要写 while (node.next != null)？
+
 ## 板子&基础操作
 
 链表节点的==增删改查==
@@ -49,7 +56,8 @@ class ListNode:
 
 - https://leetcode.cn/problems/reverse-linked-list/
 
-  > 需要三个变量执行翻转操作，current为当前节点、next保存current的下一个节点、pre为前序节点
+  > 1. 需要三个变量执行翻转操作，current为当前节点、next保存current的下一个节点、pre为前序节点
+  > 2. 主要是需要注意操作顺序：断开cur前要保留cur.next，随后将cur.next指向prev，再先后更新prev和cur位置。
 
 - 两数相加：https://leetcode.cn/problems/add-two-numbers-ii/ 
 
@@ -124,6 +132,7 @@ https://leetcode.cn/problems/intersection-of-two-linked-lists
 * 在遍历第二个链表时，查询到的第一个存储在哈希表中的节点，即为交点
 
 2.拉通对齐：用两个指针同时遍历链表a和b，直到二者相遇。
+
 * 设链表a、b公共部分长度为c，非公共部分长度分别为a\b
 * 我们的逻辑是，每次循环让一个指针前进一步，遍历完当前链表后继续遍历下一个链表
 * 那么指针a到达交点时，经历的路程是 a+b+c，指针b到达交点时，经历的路程也是 a+b+c，且每次循环两个指针都会向前走一步，所以如果两个链表相交，两个指针必然相遇。

@@ -2,7 +2,7 @@
 
 描述：给定一个数组，求数组指定范围内的和
 
-<img src="E:\master2\coding_notes\DSA\algorithm_prefix.assets\1711589770286.png" alt="1711589770286" style="zoom: 50%;" />
+<img src=".\algorithm_prefix.assets\1711589770286.png" alt="1711589770286" style="zoom: 50%;" />
 
 ```C++
 #include <algorithm>
@@ -31,10 +31,22 @@ int main(){
 
 ### 前缀+哈希
 
-- https://leetcode.cn/problems/make-sum-divisible-by-p/
+- [560. 和为 K 的子数组](https://leetcode.cn/problems/subarray-sum-equals-k/)
+- [1524. 和为奇数的子数组数目](https://leetcode.cn/problems/number-of-sub-arrays-with-odd-sum/) 
+-  [974. 和可被 K 整除的子数组](https://leetcode.cn/problems/subarray-sums-divisible-by-k/)  
+-  [1590. 使数组和能被 P 整除](https://leetcode.cn/problems/make-sum-divisible-by-p/)   ==tough==，需要理解 同余定理、负数取模，多看几遍吧，离摸透还差的远。
+-  [523. 连续的子数组和](https://leetcode.cn/problems/continuous-subarray-sum/)
+-  [437. 路径总和 III](https://leetcode.cn/problems/path-sum-iii/)  这两题都要注意边界问题。 前缀和  +  二叉树递归
+-  [2588. 统计美丽子数组数目](https://leetcode.cn/problems/count-the-number-of-beautiful-subarrays/) 
+- [525. 连续数组](https://leetcode.cn/problems/contiguous-array/)  和上一题思路很像。一个是用异或累计效果、一个是用一点点编码累计效果。
 - https://leetcode.cn/problems/binary-subarrays-with-sum/description/
-- https://leetcode.cn/problems/subarray-sum-equals-k/description/
-- https://leetcode.cn/problems/subarray-sums-divisible-by-k/
+
+
+
+### 前缀距离和
+
+- [1685. 有序数组中差绝对值之和](https://leetcode.cn/problems/sum-of-absolute-differences-in-a-sorted-array/) 
+- [2615. 等值距离和](https://leetcode.cn/problems/sum-of-distances/) ==两道题如出一辙==
 
 
 
@@ -78,7 +90,13 @@ int main()
 ==tips==
 
 - 原理：https://leetcode.cn/circle/discuss/UUuRex/
-- https://leetcode.cn/problems/count-square-submatrices-with-all-ones/
+1314. [矩阵区域和](https://leetcode.cn/problems/range-sum-query-2d-immutable/) 1484 
+3070. 元素和小于等于 k 的子矩阵的数目 1499
+1738. [找出第 K 大的异或坐标值](https://leetcode.cn/problems/find-kth-largest-xor-coordinate-value/) 1671
+1292. [元素和小于等于阈值的正方形的最大边长](https://leetcode.cn/problems/maximum-side-length-of-a-square-with-sum-less-than-or-equal-to-threshold/) 1735
+221. 最大正方形
+1277. 统计全为 1 的正方形子矩阵
+1504. 统计全 1 子矩形 1845
 
 **输入**
 
@@ -139,10 +157,17 @@ int main()
 
 ## 前缀异或和
 
-1. 构建回文串检测：https://leetcode.cn/problems/can-make-palindrome-from-substring/solutions/2309725/yi-bu-bu-you-hua-cong-qian-zhui-he-dao-q-yh5p/
-2. 最长的超赞字符串：https://leetcode.cn/problems/find-longest-awesome-substring/description/
+1. 异或和的具体推导，见leetcode官方题解。结论是：
+   $$
+   Q(left,right) = xor[left]~~~\oplus ~~~xor[right+1]\\
+   xor[i]=a[0] ~\oplus ~a[1] ~\oplus~a[2] ~\oplus... ...~\oplus~a[i-1]
+   $$
+   
+2. [1177. 构建回文串检测](https://leetcode.cn/problems/can-make-palindrome-from-substring/) ==比较难，需要多看几遍==
 
+3. [1542. 找出最长的超赞子字符串](https://leetcode.cn/problems/find-longest-awesome-substring/)
 
+4. [1915. 最美子字符串的数目](https://leetcode.cn/problems/number-of-wonderful-substrings/)，[题解](https://leetcode.cn/problems/number-of-wonderful-substrings/solution/qian-zhui-he-chang-jian-ji-qiao-by-endle-t57t/)
 
 ## 前后缀
 
@@ -150,13 +175,46 @@ int main()
 
 
 
+##前后缀最大值
 
+前、后缀最大值
 
+- `pre_max[i] = max(pre_max[i-1], nums[i])`，计算下标范围 `i~n-1`的最大值
 
+  ```python
+  suf_max = [0] * (n + 1)
+  for i in range(n-1, -1, -1):
+      suf_max[i] = max(suf_max[i+1], nums[i])
+  ```
 
+- `suf_max[i] = max(suf_max[i+1], nums[i])`，，计算下标范围 `0~i`的最大值
 
+  ```python
+  pre_max = [0] * (n + 1)
+  for i in range(n):
+      pre_max[i+1] = max(pre_max[i], nums[i])
+  pre_max = pre_max[1:]
+  ```
 
+-  [2874. 有序三元组中的最大值 II](https://leetcode.cn/problems/maximum-value-of-an-ordered-triplet-ii/) 
 
+- [1014. 最佳观光组合](https://leetcode.cn/problems/best-sightseeing-pair/)
+
+  ```python
+  class Solution:
+      def maximumTripletValue(self, nums: List[int]) -> int:
+          n = len(nums)
+          suf_max = [0] * (n + 1)
+          for i in range(n - 1, 1, -1):
+              suf_max[i] = max(suf_max[i + 1], nums[i])
+          ans = pre_max = 0
+          for j, x in enumerate(nums):
+              ans = max(ans, (pre_max - x) * suf_max[j + 1])
+              pre_max = max(pre_max, x)
+          return ans
+  ```
+
+  
 
 ##相关笔试题
 

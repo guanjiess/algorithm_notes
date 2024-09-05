@@ -120,8 +120,6 @@ BFS
 
 
 
-
-
 ## 有向图
 
 1、课程表问题：https://leetcode.cn/problems/course-schedule/
@@ -136,7 +134,9 @@ https://leetcode.cn/problems/course-schedule/solutions/250377/bao-mu-shi-ti-jie-
 
 ## 无向图
 
+https://leetcode.cn/problems/count-pairs-of-connectable-servers-in-a-weighted-tree-network/
 
+https://leetcode.cn/problems/count-valid-paths-in-a-tree/
 
 ## tricks
 
