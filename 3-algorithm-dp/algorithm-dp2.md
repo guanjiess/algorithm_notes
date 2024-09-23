@@ -29,7 +29,7 @@
 
 1、递归翻译成递推的dp时，循环的顺序怎么确定？正序还是逆序遍历？
 
-<img src="E:\master2\coding_notes\DSA\algorithm-dp2.assets\1713435024479.png" alt="1713435024479" style="zoom: 67%;" />
+<img src=".\algorithm-dp2.assets\1713435024479.png" alt="1713435024479" style="zoom: 67%;" />
 
 以https://leetcode.cn/problems/minimum-path-cost-in-a-grid/solutions/2536856/jiao-ni-yi-bu-bu-si-kao-dong-tai-gui-hua-bd25/为例。
 
@@ -146,8 +146,6 @@ int climbStairs(vector<int> &nums, int target) {
 - 背包问题是顺序无关的。从背包中取出 1 2 3，和从背包中取出  3  2 1 是一回事。
 - 适用范围：从集合中取一些元素，使它们的**总和与某个「定值」有关**，那么可以考虑转换为背包问题。
 
-
-
 ### 回溯
 
 以https://leetcode.cn/problems/target-sum/为例
@@ -205,7 +203,7 @@ $$
 
 按照这个要求，正序遍历会导致 0-1 背包状态被覆盖，而完全背包则是正确的（转移来源被计算出来，且不存在被覆盖的问题）；逆序遍历对于 0-1 背包是正确的（转移来源是上一行的，早就被计算出来了且没有被覆盖），而完全背包则不行（转移来源没有被计算出来）。
 
-<img src="E:\master2\coding_notes\DSA\algorithm-dp2.assets\1715245769064.png" alt="1715245769064" style="zoom:67%;" />
+<img src=".\algorithm-dp2.assets\1715245769064.png" alt="1715245769064" style="zoom:67%;" />
 
 01背包中内嵌的循环从大到小遍历，是为了保证每个物品只被添加一次。外层遍历物品，内层遍历物品价值，从大到小遍历。
 
@@ -350,6 +348,64 @@ $$
 ==参考==
 
 https://github.com/EndlessCheng/codeforces-go/blob/master/leetcode/SOLUTIONS.md
+
+### 例题
+
+1. https://codefun2000.com/record/64f7ebc2de06fb10cc2bd66f
+
+   ```C++
+   // // 背包问题变种
+   // // 状态定义：dp[i][j]表示从[0-i]列中选取元素，使得这些元素之和为j的方案数
+   // // 状态转移: 分两种情况 
+   // // 1. num[i] > j  则无法选取第i个元素，所以 dp[i][j] = dp[i - 1][j]
+   // // 2. num[i] <=j  则有两种情况可以推出 dp[i][j]，一种是不选num[i]，则对应的方案数为dp[i - 1][j]，
+   // // 另一种是选num[i]，则对应的方案数为dp[i - 1][j - num[i]. 则dp[i][j] = dp[i - 1][j] + dp[i - 1][j - num[i]]
+   
+   // // 使用滚动数组压缩空间，由于状态的递推只和前一个状态有关，因此可以通过逆序遍历目标和，从而有dp[j] = dp[j] + dp[j - num[i]]; 
+   
+   #include <bits/stdc++.h>
+   #include <vector>
+   using namespace std;
+   
+   int main()
+   {
+       int n;
+       cin >> n;
+   
+       vector<vector<int>> cost(n, vector<int>(4));
+       for (int i = 0; i < n; i++)
+       {
+           cin >> cost[i][0] >> cost[i][1] >> cost[i][2] >> cost[i][3];
+       }
+   
+       vector<vector<int>> dp(5, vector<int>(1000 + 1)); 
+       dp[0][0] = 1; // 一个也不选，且和为0的方案数只有一种
+       // 统计第一个整数出现的次数
+       // for(int i=1;i<=n;++i){
+       //     if(cost[i - 1][0]<=1000) dp[1][cost[i - 1][0]]++;
+       // }
+       for (int j = 1; j <= 4; j++) // 遍历列数等价于遍历物品
+       {
+           for (int i = 1; i <= n; i++) // 
+           {
+               for (int sum = 1000; sum >= cost[i - 1][j - 1]; sum--) // 遍历容量
+               {
+                     // 可以不选第j列，可以选第j列
+                   dp[j][sum] = dp[j][sum] + dp[j - 1][sum - cost[i - 1][j - 1]];
+                   // cout << dp[j][sum] << endl;
+               }
+           }
+       }
+   
+       cout << dp[4][1000] << endl;
+   
+       return 0;
+   }
+   ```
+
+   
+
+2. 
 
 
 

@@ -26,7 +26,7 @@
 
 ###2枚举哪个
 
-![1712544069684](E:\master2\coding_notes\DSA\algorithm-backtrack.assets\1712544069684.png)
+![1712544069684](.\algorithm-backtrack.assets\1712544069684.png)
 
 **回溯的步骤**
 
@@ -83,7 +83,7 @@ void backtracking(参数) {
 ```
 
 - 每个数字都有选或者不选两种情况，从头到尾分别枚举这些情况，可以形成一个满二叉树，树的叶子节点就是需要的答案。
-- <img src="E:\master2\coding_notes\DSA\algorithm-backtrack.assets\1714893304479.png" alt="1714893304479" style="zoom:67%;" />
+- <img src=".\algorithm-backtrack.assets\1714893304479.png" alt="1714893304479" style="zoom:67%;" />
 
 - 回溯三问
   - 当前操作：枚举第i个数字选或者不选
@@ -98,7 +98,7 @@ void backtracking(参数) {
 
 - 分别枚举第一个数字选哪个、第二个数字选哪个/////所以，每个节点都是答案
 
-  <img src="E:\master2\coding_notes\DSA\algorithm-backtrack.assets\1714893813309.png" alt="1714893813309" style="zoom:50%;" />
+  <img src=".\algorithm-backtrack.assets\1714893813309.png" alt="1714893813309" style="zoom:50%;" />
 
 - 回溯三问
 
@@ -139,8 +139,6 @@ n皇后问题
 > 细节：如何判断行列是否处在同一对角线？
 > * 45度：r + c = 常数
 > * 135度：r - c  = 常数
-
-
 
 
 

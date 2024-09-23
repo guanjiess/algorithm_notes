@@ -132,7 +132,7 @@
 - [456. 132 模式](https://leetcode.cn/problems/132-pattern/)
 - [1793. 好子数组的最大分数](https://leetcode.cn/problems/maximum-score-of-a-good-subarray/) 
 
-###单调性
+###栈的单调性
 
 栈中元素要保持单调，求解更小值时，栈顶到栈底是递减的；求解更大值，从栈顶到栈底递增。
 
